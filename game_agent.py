@@ -176,7 +176,7 @@ class MinimaxPlayer(IsolationPlayer):
 
         except SearchTimeout:
             # Handle any actions required after timeout as needed
-            return best_move
+            pass
 
 
         # Return the best move from the last completed search iteration
@@ -202,7 +202,7 @@ class MinimaxPlayer(IsolationPlayer):
 
         v = float("inf")
         for m in game.get_legal_moves():
-            v = min(v, self.max_value(game.forecast_move(m), depth))
+            v = min(v, self.max_value(game.forecast_move(m), depth-1))
 
         return v
 
@@ -217,7 +217,7 @@ class MinimaxPlayer(IsolationPlayer):
 
         v = float("-inf")
         for m in game.get_legal_moves():
-            v = max(v, self.min_value(game.forecast_move(m), depth))
+            v = max(v, self.min_value(game.forecast_move(m), depth-1))
 
         return v
 
@@ -267,12 +267,18 @@ class MinimaxPlayer(IsolationPlayer):
         best_score = float("-inf")
         best_move = None
         depth_count = 1
-        for m in game.get_legal_moves():
+        legal_moves = game.get_legal_moves()
+
+        if not legal_moves:
+            return (-1, -1)
+
+        for m in legal_moves:
             v = self.max_value(game.forecast_move(m), depth_count)
             if v > best_score:
                 best_score = v
                 best_move = m
             depth_count +=1
+
         return best_move
 
 

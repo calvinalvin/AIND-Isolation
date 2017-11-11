@@ -8,6 +8,7 @@ import unittest
 import isolation
 import game_agent
 import timeit
+import sample_players
 
 from importlib import reload
 
@@ -23,17 +24,29 @@ class IsolationTest(unittest.TestCase):
         self.game = isolation.Board(self.player1, self.player2)
         self.minimax_player = game_agent.MinimaxPlayer()
 
-    def test_minimax_player(self):
-        time_millis = lambda: 1000 * timeit.default_timer()
-        move_start = time_millis()
-        time_left = lambda : TIME_LIMIT_MILLIS - (time_millis() - move_start)
+    # def test_minimax_player(self):
+    #     time_millis = lambda: 1000 * timeit.default_timer()
+    #     move_start = time_millis()
+    #     time_left = lambda : TIME_LIMIT_MILLIS - (time_millis() - move_start)
+    #
+    #     print("minimax_player is ")
+    #     print(self.minimax_player.get_move)
+    #
+    #     best_move = self.minimax_player.get_move(self.game, time_left)
+    #     print('best move is ----')
+    #     print(best_move)
 
-        print("minimax_player is ")
-        print(self.minimax_player.get_move)
+    def test_minimax_func(self):
+        minimax_player = game_agent.MinimaxPlayer(search_depth=1, score_fn=sample_players.open_move_score)
+        other_player = sample_players.GreedyPlayer()
+        state = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 51, 43]
+        game = isolation.Board(minimax_player, other_player,  width=9, height=9)
+        game._board_state = state
 
-        best_move = self.minimax_player.get_move(self.game, time_left)
-        print('best move is ----')
-        print(best_move)
+        move = minimax_player.get_move(game, lambda:10)
+        print(game.to_string())
+        print(move)
+        assert(move in [(6, 6)])
 
 
 if __name__ == '__main__':
