@@ -190,7 +190,7 @@ class MinimaxPlayer(IsolationPlayer):
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
 
-        return (len(game.get_legal_moves()) <= 0) or (depth <= 0) or  depth >= self.search_depth
+        return (len(game.get_legal_moves()) <= 0) or (depth <= 0) or depth >= self.search_depth
 
     def min_value(self, game, depth):
         """ Return the value for a win (+1) if the game is over,
