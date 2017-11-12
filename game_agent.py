@@ -271,6 +271,9 @@ class MinimaxPlayer(IsolationPlayer):
         if not legal_moves:
             return (-1, -1)
 
+        if depth == 0:
+            return self.score(game, game.active_player)
+
         for m in legal_moves:
             v = self.min_value(game.forecast_move(m), depth)
             if v > best_score:
@@ -333,7 +336,6 @@ class AlphaBetaPlayer(IsolationPlayer):
             while True:
                 best_move = self.alphabeta(game, depth_count)
                 depth_count += 1
-
 
         except SearchTimeout:
             # Handle any actions required after timeout as needed
