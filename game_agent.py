@@ -34,8 +34,6 @@ def custom_score(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    # TODO: finish this function!
-    #raise NotImplementedError
     if game.is_loser(player):
         return float("-inf")
 
@@ -70,8 +68,22 @@ def custom_score_2(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    # TODO: finish this function!
-    raise NotImplementedError
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    my_moves = 1.0 * len(game.get_legal_moves(player))
+    opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
+
+    if my_moves == 0:
+        return float("-inf")
+
+    if opponent_moves == 0:
+        return float("inf")
+
+    return my_moves/opponent_moves
 
 
 def custom_score_3(game, player):
@@ -96,8 +108,22 @@ def custom_score_3(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    # TODO: finish this function!
-    raise NotImplementedError
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    my_moves = 1.0 * len(game.get_legal_moves(player))
+    opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
+
+    if my_moves == 0:
+        return float("-inf")
+
+    if opponent_moves == 0:
+        return float("inf")
+
+    return my_moves/opponent_moves
 
 
 class IsolationPlayer:
@@ -319,10 +345,6 @@ class AlphaBetaPlayer(IsolationPlayer):
             Board coordinates corresponding to a legal move; may return
             (-1, -1) if there are no available legal moves.
         """
-        # self.time_left = time_left
-        #
-        # game.forecast_move
-
         self.time_left = time_left
 
         # Initialize the best move so that this function returns something
@@ -375,9 +397,8 @@ class AlphaBetaPlayer(IsolationPlayer):
 
 
     def max_value(self, game, depth, alpha, beta):
-        """ Return the value for a loss (-1) if the game is over,
-        otherwise return the maximum value over all legal child
-        nodes.
+        """ Return the maximum value of a node if the evaluation is greater
+        than beta. Updates alpha for pruning.
         """
         if self.terminal_test(game, depth):
             return self.score(game, game.active_player)
