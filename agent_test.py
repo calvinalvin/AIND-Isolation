@@ -37,16 +37,21 @@ class IsolationTest(unittest.TestCase):
     #     print(best_move)
 
     def test_minimax_func(self):
-        minimax_player = game_agent.MinimaxPlayer(search_depth=1, score_fn=sample_players.open_move_score)
+        minimax_player = game_agent.MinimaxPlayer(search_depth=1, score_fn=sample_players.improved_score)
         other_player = sample_players.GreedyPlayer()
         state = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 51, 43]
         game = isolation.Board(minimax_player, other_player,  width=9, height=9)
         game._board_state = state
 
-        move = minimax_player.get_move(game, lambda:10)
+        legal_moves = game.get_legal_moves()
+        move = minimax_player.get_move(game, lambda: 10)
+
         print(game.to_string())
+        print('Available choices:')
+        print(legal_moves)
         print(move)
-        assert(move in [(6, 6)])
+
+        assert(move in legal_moves)
 
 
 if __name__ == '__main__':
