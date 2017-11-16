@@ -43,7 +43,7 @@ def custom_score(game, player):
     my_moves = len(game.get_legal_moves(player))
     opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
 
-    return my_moves*my_moves - 1.5*opponent_moves*opponent_moves
+    return float(1.5*my_moves - opponent_moves)
 
 
 def custom_score_2(game, player):
@@ -74,7 +74,7 @@ def custom_score_2(game, player):
     if game.is_winner(player):
         return float("inf")
 
-    my_moves = 1.0 * len(game.get_legal_moves(player))
+    my_moves = len(game.get_legal_moves(player))
     opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
 
     if my_moves == 0:
@@ -83,7 +83,7 @@ def custom_score_2(game, player):
     if opponent_moves == 0:
         return float("inf")
 
-    return my_moves/opponent_moves
+    return float(my_moves - 1.5*opponent_moves)
 
 
 def custom_score_3(game, player):
@@ -114,7 +114,7 @@ def custom_score_3(game, player):
     if game.is_winner(player):
         return float("inf")
 
-    my_moves = 1.0 * len(game.get_legal_moves(player))
+    my_moves = len(game.get_legal_moves(player))
     opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
 
     if my_moves == 0:
@@ -123,7 +123,7 @@ def custom_score_3(game, player):
     if opponent_moves == 0:
         return float("inf")
 
-    return my_moves/opponent_moves
+    return float((1.5 * my_moves) / opponent_moves)
 
 
 class IsolationPlayer:
